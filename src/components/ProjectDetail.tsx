@@ -31,7 +31,6 @@ interface ProjectDetailProps {
     tags: string[];
     images: string[];
   };
-  onClose: () => void;
 }
 
 const ProjectDetail = ({

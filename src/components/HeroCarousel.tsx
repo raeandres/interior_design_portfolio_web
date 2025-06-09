@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from ".././components/ui/button";
+import { Button } from "../components/ui/button";
 
 interface HeroCarouselProps {
   images?: string[];
