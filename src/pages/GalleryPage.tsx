@@ -14,8 +14,6 @@ interface Project {
   client: string;
   date: string;
   location: string;
-  tags: string[]; // Add this
-  images: string[]; // Add this
 }
 
 const GalleryPage = () => {
@@ -36,8 +34,6 @@ const GalleryPage = () => {
       client: "Johnson Family",
       date: "March 2023",
       location: "New York, NY",
-      tags: [""],
-      images: [""],
     },
     {
       id: "2",
@@ -49,8 +45,6 @@ const GalleryPage = () => {
       client: "Tech Innovations Inc.",
       date: "January 2023",
       location: "San Francisco, CA",
-      tags: [""],
-      images: [""],
     },
     {
       id: "3",
@@ -63,8 +57,6 @@ const GalleryPage = () => {
       client: "Grand Plaza Hotels",
       date: "November 2022",
       location: "Miami, FL",
-      tags: [""],
-      images: [""],
     },
     {
       id: "4",
@@ -77,8 +69,6 @@ const GalleryPage = () => {
       client: "Martinez Residence",
       date: "February 2023",
       location: "Chicago, IL",
-      tags: [""],
-      images: [""],
     },
     {
       id: "5",
@@ -91,8 +81,6 @@ const GalleryPage = () => {
       client: "Elegance Apparel",
       date: "April 2023",
       location: "Los Angeles, CA",
-      tags: [""],
-      images: [""],
     },
     {
       id: "6",
@@ -105,8 +93,6 @@ const GalleryPage = () => {
       client: "Park Residences",
       date: "May 2023",
       location: "Seattle, WA",
-      tags: [""],
-      images: [""],
     },
   ];
 
@@ -216,7 +202,20 @@ const GalleryPage = () => {
 
       {/* Project Detail Modal */}
       {selectedProject && (
-        <ProjectDetail project={selectedProject} onClose={handleCloseDetail} />
+        <ProjectDetail
+          open={true}
+          onOpenChange={(open) => !open && handleCloseDetail()}
+          project={{
+            id: selectedProject.id,
+            title: selectedProject.title,
+            description: selectedProject.description,
+            client: selectedProject.client,
+            location: selectedProject.location,
+            date: selectedProject.date,
+            tags: [selectedProject.category],
+            images: [selectedProject.imageUrl],
+          }}
+        />
       )}
     </div>
   );
