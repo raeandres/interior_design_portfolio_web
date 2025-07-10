@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -54,8 +55,17 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white p-6 md:p-12">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 py-6">
+          <Link to="/" className="text-2xl font-light tracking-wider">
+            SECTOR D
+          </Link>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto p-6 md:p-12">
         <h1 className="text-4xl md:text-5xl font-light mb-8 text-center">
           Contact Us
         </h1>
