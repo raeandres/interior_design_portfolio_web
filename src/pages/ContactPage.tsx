@@ -96,9 +96,7 @@ const ContactPage = () => {
                   <Mail className="h-5 w-5 text-gray-500 mt-1" />
                   <div>
                     <h3 className="font-medium">Email</h3>
-                    <p className="text-gray-600">
-                      info@interiordesignsolutions.com
-                    </p>
+                    <p className="text-gray-600">info@sectord.com</p>
                   </div>
                 </div>
               </CardContent>
