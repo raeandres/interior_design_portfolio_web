@@ -1,6 +1,16 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  Filter,
+  Grid,
+  List,
+  MapPin,
+  Calendar,
+  User,
+  ArrowRight,
+} from "lucide-react";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import ProjectDetail from "../components/ProjectDetail";
@@ -20,79 +30,117 @@ const GalleryPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [viewMode, setViewMode] = useState<"grid" | "masonry">("masonry");
 
-  // Mock data for projects
+  // Enhanced project data
   const projects: Project[] = [
     {
       id: "1",
-      title: "Modern Minimalist Living Room",
+      title: "Penthouse Sanctuary",
       category: "Residential",
       imageUrl:
         "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80",
       description:
-        "A clean, minimalist living room design with natural light and neutral tones.",
-      client: "Johnson Family",
-      date: "March 2023",
-      location: "New York, NY",
+        "A sophisticated penthouse transformation featuring custom millwork, curated art collection, and panoramic city views. This project seamlessly blends contemporary luxury with timeless elegance.",
+      client: "Private Residence",
+      date: "2024",
+      location: "Manhattan, NY",
     },
     {
       id: "2",
-      title: "Executive Office Suite",
+      title: "Tech Innovation Hub",
       category: "Commercial",
       imageUrl:
         "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
-      description: "Modern office space designed for productivity and comfort.",
-      client: "Tech Innovations Inc.",
-      date: "January 2023",
+      description:
+        "A cutting-edge workspace designed to foster creativity and collaboration. Features include flexible meeting spaces, wellness areas, and biophilic design elements.",
+      client: "Nexus Technologies",
+      date: "2024",
       location: "San Francisco, CA",
     },
     {
       id: "3",
-      title: "Luxury Hotel Lobby",
+      title: "Boutique Hotel Reimagined",
       category: "Hospitality",
       imageUrl:
         "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=800&q=80",
       description:
-        "Elegant and welcoming hotel lobby with custom furniture and lighting.",
-      client: "Grand Plaza Hotels",
-      date: "November 2022",
-      location: "Miami, FL",
+        "Complete renovation of a historic boutique hotel, preserving architectural heritage while introducing contemporary luxury amenities and bespoke furnishings.",
+      client: "Heritage Hospitality Group",
+      date: "2023",
+      location: "Charleston, SC",
     },
     {
       id: "4",
-      title: "Contemporary Kitchen Remodel",
+      title: "Culinary Masterpiece",
       category: "Residential",
       imageUrl:
         "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=800&q=80",
       description:
-        "Complete kitchen renovation with high-end appliances and custom cabinetry.",
-      client: "Martinez Residence",
-      date: "February 2023",
-      location: "Chicago, IL",
+        "A chef's dream kitchen featuring professional-grade appliances, custom cabinetry, and a stunning marble waterfall island. Perfect for both intimate dinners and grand entertaining.",
+      client: "The Morrison Estate",
+      date: "2024",
+      location: "Napa Valley, CA",
     },
     {
       id: "5",
-      title: "Boutique Retail Space",
+      title: "Flagship Retail Experience",
       category: "Commercial",
       imageUrl:
         "https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=800&q=80",
       description:
-        "Innovative retail design focused on customer experience and brand identity.",
-      client: "Elegance Apparel",
-      date: "April 2023",
-      location: "Los Angeles, CA",
+        "An immersive retail environment that tells the brand story through carefully curated spaces, innovative lighting design, and interactive customer touchpoints.",
+      client: "Artisan Collective",
+      date: "2024",
+      location: "Beverly Hills, CA",
     },
     {
       id: "6",
-      title: "Urban Loft Apartment",
+      title: "Industrial Chic Loft",
       category: "Residential",
       imageUrl:
         "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80",
       description:
-        "Industrial-inspired loft with open concept living and custom details.",
-      client: "Park Residences",
-      date: "May 2023",
-      location: "Seattle, WA",
+        "A former warehouse transformed into a stunning residential loft, celebrating industrial heritage while incorporating modern comfort and sophisticated design elements.",
+      client: "Urban Living Co.",
+      date: "2023",
+      location: "Brooklyn, NY",
+    },
+    {
+      id: "7",
+      title: "Wellness Retreat Spa",
+      category: "Hospitality",
+      imageUrl:
+        "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80",
+      description:
+        "A tranquil spa environment designed to promote relaxation and rejuvenation through natural materials, soothing color palettes, and thoughtful spatial flow.",
+      client: "Serenity Wellness",
+      date: "2023",
+      location: "Sedona, AZ",
+    },
+    {
+      id: "8",
+      title: "Executive Boardroom",
+      category: "Commercial",
+      imageUrl:
+        "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&q=80",
+      description:
+        "A prestigious boardroom design that commands respect while fostering productive discussions. Features custom conference table, integrated technology, and sophisticated lighting.",
+      client: "Global Finance Corp",
+      date: "2024",
+      location: "Chicago, IL",
+    },
+    {
+      id: "9",
+      title: "Coastal Modern Retreat",
+      category: "Residential",
+      imageUrl:
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
+      description:
+        "A beachfront home that captures the essence of coastal living through natural textures, ocean-inspired colors, and seamless indoor-outdoor integration.",
+      client: "Oceanview Estates",
+      date: "2023",
+      location: "Malibu, CA",
     },
   ];
 
@@ -116,89 +164,290 @@ const GalleryPage = () => {
     setSelectedProject(null);
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="py-8 px-6 md:px-12 border-b border-gray-100">
-        <div className="container mx-auto">
-          <h1 className="text-3xl md:text-4xl font-light text-gray-900">
-            Project Gallery
-          </h1>
-          <p className="mt-2 text-gray-600">
-            Explore our portfolio of interior design projects
-          </p>
+      <header className="bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 py-6">
+          <Link to="/" className="text-2xl font-light tracking-wider">
+            SECTOR D
+          </Link>
         </div>
       </header>
 
-      {/* Filters */}
-      <div className="py-6 px-6 md:px-12 border-b border-gray-100">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                onClick={() => setSelectedCategory(category)}
-                className="text-sm"
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
-          <div className="relative w-full md:w-64">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-            <Input
-              placeholder="Search projects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
-            />
-          </div>
+      {/* Hero Section */}
+      <motion.section
+        className="py-24 bg-gradient-to-b from-gray-50 to-white"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        <div className="container mx-auto px-4 text-center">
+          <motion.h1
+            className="text-5xl md:text-7xl font-light mb-6 text-gray-900"
+            variants={itemVariants}
+          >
+            Portfolio
+          </motion.h1>
+          <motion.div
+            className="w-24 h-0.5 bg-gray-900 mx-auto mb-8"
+            variants={itemVariants}
+          ></motion.div>
+          <motion.p
+            className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
+            variants={itemVariants}
+          >
+            Discover our collection of thoughtfully designed spaces that
+            transform the way people live, work, and experience their
+            environments.
+          </motion.p>
+          <motion.div
+            className="mt-12 flex justify-center"
+            variants={itemVariants}
+          >
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {projects.length}+
+              </div>
+              <div className="text-gray-600">Completed Projects</div>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.section>
+
+      {/* Filters */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+              <div className="flex items-center gap-2">
+                <Filter className="w-5 h-5 text-gray-600" />
+                <span className="text-lg font-medium text-gray-900">
+                  Filter by:
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {categories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={
+                      selectedCategory === category ? "default" : "outline"
+                    }
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-6 py-2 rounded-full transition-all duration-300 ${
+                      selectedCategory === category
+                        ? "bg-gray-900 text-white shadow-lg"
+                        : "border-gray-300 text-gray-700 hover:border-gray-900 hover:text-gray-900"
+                    }`}
+                  >
+                    {category}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Input
+                  placeholder="Search projects..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-12 pr-4 py-3 w-80 rounded-full border-gray-300 focus:border-gray-900 focus:ring-gray-900"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 border border-gray-300 rounded-full p-1">
+                <Button
+                  variant={viewMode === "masonry" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("masonry")}
+                  className={`rounded-full px-4 ${
+                    viewMode === "masonry"
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-600"
+                  }`}
+                >
+                  <Grid className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "grid" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("grid")}
+                  className={`rounded-full px-4 ${
+                    viewMode === "grid"
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-600"
+                  }`}
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Gallery Grid */}
-      <div className="container mx-auto py-12 px-6 md:px-12">
-        {filteredProjects.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-gray-500">
-              No projects found matching your criteria.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((project) => (
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          {filteredProjects.length === 0 ? (
+            <motion.div
+              className="text-center py-24"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Search className="w-8 h-8 text-gray-400" />
+              </div>
+              <h3 className="text-2xl font-light text-gray-900 mb-4">
+                No Projects Found
+              </h3>
+              <p className="text-gray-600 max-w-md mx-auto">
+                We couldn't find any projects matching your search criteria. Try
+                adjusting your filters or search terms.
+              </p>
+            </motion.div>
+          ) : (
+            <AnimatePresence>
               <motion.div
-                key={project.id}
-                layoutId={`project-${project.id}`}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => handleProjectClick(project)}
-                className="cursor-pointer group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+                className={
+                  viewMode === "masonry"
+                    ? "columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8"
+                    : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                }
+                initial="hidden"
+                animate="visible"
+                variants={containerVariants}
               >
-                <div className="aspect-w-16 aspect-h-9 relative overflow-hidden">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <span className="text-xs font-medium text-blue-600 uppercase tracking-wider">
-                    {project.category}
-                  </span>
-                  <h3 className="mt-2 text-xl font-medium text-gray-900">
-                    {project.title}
-                  </h3>
-                  <p className="mt-2 text-gray-600 line-clamp-2">
-                    {project.description}
-                  </p>
-                </div>
+                {filteredProjects.map((project) => (
+                  <motion.div
+                    key={project.id}
+                    layoutId={`project-${project.id}`}
+                    variants={itemVariants}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ duration: 0.4 }}
+                    onClick={() => handleProjectClick(project)}
+                    className={`cursor-pointer group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 ${
+                      viewMode === "masonry" ? "break-inside-avoid mb-8" : ""
+                    }`}
+                  >
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={project.imageUrl}
+                        alt={project.title}
+                        className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+                          viewMode === "masonry" ? "h-auto" : "h-80"
+                        }`}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute bottom-4 left-4 right-4 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <div className="flex items-center justify-between text-white">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            <span className="text-sm">{project.date}</span>
+                          </div>
+                          <ArrowRight className="w-5 h-5" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-8">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
+                          {project.category}
+                        </span>
+                        <div className="flex items-center gap-1 text-gray-500">
+                          <MapPin className="w-4 h-4" />
+                          <span className="text-sm">{project.location}</span>
+                        </div>
+                      </div>
+
+                      <h3 className="text-2xl font-light text-gray-900 mb-3 group-hover:text-gray-700 transition-colors duration-300">
+                        {project.title}
+                      </h3>
+
+                      <p className="text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                        {project.description}
+                      </p>
+
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <User className="w-4 h-4" />
+                        <span className="text-sm">{project.client}</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
-          </div>
-        )}
-      </div>
+            </AnimatePresence>
+          )}
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-24 bg-gray-900 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-light mb-6">
+              Ready to Create Your Dream Space?
+            </h2>
+            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
+              Let SECTOR D transform your vision into reality. Every project
+              begins with understanding your unique story and aspirations.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button
+                asChild
+                size="lg"
+                className="bg-white text-gray-900 hover:bg-gray-100 px-10 py-4 rounded-full text-lg"
+              >
+                <Link to="/contact">Start Your Project</Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg"
+              >
+                <Link to="/services">Explore Services</Link>
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Project Detail Modal */}
       {selectedProject && (
