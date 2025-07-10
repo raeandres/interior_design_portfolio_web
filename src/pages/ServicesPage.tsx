@@ -40,76 +40,80 @@ const ServicesPage = () => {
 
   const mainServices = [
     {
+      number: "01",
       title: "Full Interior Design",
-      subtitle: "Complete Design Solutions",
+      subtitle: "New builds, renovations, or empty spaces",
       description:
-        "From initial concept to final installation, we provide comprehensive interior design services for new builds and major renovations. Our full-service approach ensures every detail is perfectly executed.",
+        "We handle the complete design process from concept development to final rendered design perspectives. Every decision is made with care to ensure your space is functional, balanced, and visually cohesive.",
       features: [
-        "Initial consultation and space assessment",
+        "Complete design process from concept to completion",
         "Concept development and mood boards",
-        "3D renderings and floor plans",
+        "3D renderings and design perspectives",
         "Material and furniture selection",
-        "Project management and installation",
-        "Final styling and photography",
+        "Project management and coordination",
+        "Final styling and installation",
       ],
       image:
         "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
       icon: Home,
-      price: "Starting from $150/sq ft",
+      bestFor: "New builds, renovations, or empty spaces",
     },
     {
-      title: "Interior Styling & Refresh",
-      subtitle: "Transform Existing Spaces",
+      number: "02",
+      title: "Interior Styling and Refresh",
+      subtitle: "Existing spaces that need refinement",
       description:
-        "Breathe new life into your existing space with our styling and refresh services. Perfect for updating your home's look without major renovations.",
+        "We work with what you have and enhance it, replacing or layering in furniture, textiles, lighting, and accessories to elevate the mood and overall flow. Perfect for homeowners or hosts who want a soft transformation.",
       features: [
-        "Space analysis and style consultation",
-        "Color palette and material updates",
-        "Furniture rearrangement and new pieces",
-        "Lighting and accessory selection",
-        "Art curation and placement",
-        "Final styling session",
+        "Work with existing elements and enhance them",
+        "Furniture replacement and layering",
+        "Textile and lighting updates",
+        "Accessory curation and placement",
+        "Mood and flow enhancement",
+        "Soft transformation approach",
       ],
       image:
         "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80",
       icon: Palette,
-      price: "Starting from $2,500",
+      bestFor: "Existing spaces that need refinement",
     },
     {
+      number: "03",
       title: "Short-Term Rental Design",
-      subtitle: "Airbnb & Boutique Stays",
+      subtitle: "Airbnb or boutique stay owners",
       description:
-        "Maximize your rental income with professionally designed spaces that create memorable experiences for guests while ensuring durability and easy maintenance.",
+        "We design beautiful, guest-friendly spaces that stand out in listings while remaining functional and easy to maintain. We combine hospitality strategy with timeless design to help your property perform visually and financially.",
       features: [
-        "Market research and target guest analysis",
-        "Durable and stylish furniture selection",
-        "Photography-ready styling",
-        "Guest experience optimization",
-        "Maintenance-friendly material choices",
-        "Revenue optimization strategies",
+        "Guest-friendly and functional design",
+        "Listing-worthy visual appeal",
+        "Easy maintenance considerations",
+        "Hospitality strategy integration",
+        "Timeless design approach",
+        "Visual and financial performance optimization",
       ],
       image:
         "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
       icon: Building2,
-      price: "Starting from $5,000",
+      bestFor: "Airbnb or boutique stay owners",
     },
     {
-      title: "Creative Direction & Visual Strategy",
-      subtitle: "For Developers & Brands",
+      number: "04",
+      title: "Creative Direction and Visual Strategy",
+      subtitle: "Developers, creatives, and lifestyle brands",
       description:
-        "Strategic design consultation for real estate developers, hospitality brands, and commercial spaces. We create cohesive visual identities that enhance brand value.",
+        "We translate your brand values into spatial experiences. From moodboards to design guidelines, we build a visual direction that aligns with your goals, audience, and brand personality.",
       features: [
-        "Brand analysis and design strategy",
-        "Visual identity development",
-        "Space planning and layout optimization",
-        "Material and finish specifications",
-        "Vendor coordination and sourcing",
-        "Design documentation and guidelines",
+        "Brand values translation into spatial experiences",
+        "Moodboard development",
+        "Design guidelines creation",
+        "Visual direction alignment",
+        "Audience and goal consideration",
+        "Brand personality integration",
       ],
       image:
         "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80",
       icon: Lightbulb,
-      price: "Custom pricing",
+      bestFor: "Developers, creatives, and lifestyle brands",
     },
   ];
 
@@ -173,14 +177,19 @@ const ServicesPage = () => {
             className="w-32 h-0.5 bg-gray-900 mx-auto mb-8"
             variants={itemVariants}
           ></motion.div>
-          <motion.p
-            className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
+          <motion.div
+            className="max-w-4xl mx-auto space-y-8"
             variants={itemVariants}
           >
-            From intimate residential spaces to large-scale commercial projects,
-            SECTOR D delivers exceptional design solutions that transform
-            environments into extraordinary experiences.
-          </motion.p>
+            <p className="text-xl md:text-2xl text-gray-600 leading-relaxed">
+              We help clients create calm, well-designed spaces that feel
+              intentional without being over designed.
+            </p>
+            <p className="text-lg md:text-xl text-gray-500 leading-relaxed">
+              Every project is a collaboration rooted in clarity, function, and
+              quiet sophistication.
+            </p>
+          </motion.div>
         </div>
       </motion.section>
 
@@ -248,20 +257,34 @@ const ServicesPage = () => {
                       !isEven ? "lg:col-start-1 lg:row-start-1" : ""
                     }`}
                   >
-                    <div className="flex items-start space-x-6">
-                      <div className="w-20 h-20 bg-gray-900 rounded-2xl flex items-center justify-center flex-shrink-0">
-                        <IconComponent className="w-10 h-10 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="text-3xl md:text-4xl font-light text-gray-900 mb-2">
-                          {service.title}
-                        </h3>
-                        <p className="text-xl text-gray-500 italic mb-4">
-                          {service.subtitle}
-                        </p>
-                        <p className="text-lg text-gray-600 leading-relaxed">
-                          {service.description}
-                        </p>
+                    <div className="space-y-6">
+                      <div className="flex items-start space-x-6">
+                        <div className="flex flex-col items-center space-y-3">
+                          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                            <span className="text-2xl font-light text-gray-900">
+                              {service.number}
+                            </span>
+                          </div>
+                          <div className="w-20 h-20 bg-gray-900 rounded-2xl flex items-center justify-center">
+                            <IconComponent className="w-10 h-10 text-white" />
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
+                            {service.title}
+                          </h3>
+                          <div className="mb-4">
+                            <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+                              Best for:
+                            </span>
+                            <p className="text-lg text-gray-700 mt-1">
+                              {service.bestFor}
+                            </p>
+                          </div>
+                          <p className="text-lg text-gray-600 leading-relaxed">
+                            {service.description}
+                          </p>
+                        </div>
                       </div>
                     </div>
 
